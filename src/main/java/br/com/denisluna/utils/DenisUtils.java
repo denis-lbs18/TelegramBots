@@ -1,9 +1,17 @@
 package br.com.denisluna.utils;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.text.Normalizer;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import java.text.*;
 
 public class DenisUtils {
 	public static String removeAcentos(String texto) {
@@ -69,27 +77,26 @@ public class DenisUtils {
 	}
 
 	public static void gravaUsuarios(String grupo, Usuario usuario) throws IOException {
-
-		Set<String> arquivo = new HashSet<String>();
-		Scanner s = new Scanner(grupo + ".txt");
-
-		while (s.hasNextLine()) {
-			arquivo.add(s.nextLine());
+		File f = new File(grupo + ".txt");
+		if (!f.exists()) {
+			f.createNewFile();
 		}
 
-		s.close();
-		arquivo.add(usuario.toString());
-		PrintWriter pw = null;
+		InputStream inputStream = new FileInputStream(f);
 
-		try {
-			pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(grupo + ".txt"), "UTF-8"));
-			for (String s1 : arquivo) {
-				pw.println(s1);
-			}
-			pw.flush();
-		} finally {
-			pw.close();
+		ImportaUsuarios importaUsuarios = new ImportaUsuarios();
+		Collection<Usuario> usuarios = importaUsuarios.importaUsuarios(inputStream);
+		inputStream.close();
+
+		usuarios.add(usuario);
+
+		PrintStream printStream = new PrintStream(grupo + ".txt");
+
+		for (Usuario user : usuarios) {
+			printStream.println(user.toString());
 		}
+
+		printStream.close();
 	}
 
 }

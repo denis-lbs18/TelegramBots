@@ -26,8 +26,17 @@ public class LucioBot extends Bot {
 			System.out.println("Estou conversando com alguém no privado com o usuário: " + usuario.getNome() + ", " + usuario.getId());
 
 		}
+		if (mensagem.contains("PORRA") && mensagem.contains(getNomeBot().toUpperCase())) {
+			
+			resposta.add("Tomá no cu " + usuario.getNome());
+			
+		} else if (mensagem.contains("PEDRO")) {
+			
+			resposta.add("Dá o cu pro Pedio então, " + usuario.getNome());
+			
+		}
 		
-		return null;
+		return resposta;
 	}
 
 }

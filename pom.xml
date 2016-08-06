@@ -3,7 +3,7 @@
   <groupId>com.denisluna</groupId>
   <artifactId>tarcitanobot</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>tarcitanobot</name>
+  <name>TelegramBots</name>
 <dependencies>
         <dependency>
             <groupId>com.mashape.unirest</groupId>
@@ -30,10 +30,10 @@
             <artifactId>json</artifactId>
             <version>20140107</version>
         </dependency>
-	<dependency>
-		<groupId>com.google.apis</groupId>
-		<artifactId>google-api-services-translate</artifactId>
-		<version>v2-rev47-1.22.0</version>
-	</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-translate</artifactId>
+			<version>v2-rev47-1.22.0</version>
+		</dependency>
     </dependencies>
 </project>
