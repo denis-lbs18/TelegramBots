@@ -3,6 +3,7 @@ package br.com.denisluna.bots;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.denisluna.Telegram.Message;
 import br.com.denisluna.utils.Usuario;
 
 public class LucioBot extends Bot {
@@ -13,29 +14,31 @@ public class LucioBot extends Bot {
 	}
 
 	@Override
-	public List<String> responde(String mensagem, String titulo, String tipo, Usuario usuario) {
+	public List<String> responde(Message mensagem, String titulo, String tipo, Usuario usuario) {
 		// TODO Auto-generated method stub
 		List<String> resposta = new ArrayList<String>();
 
 		if (tipo.contains("group")) {
 
-			System.out.println("Estou conversando com alguém no grupo " + titulo + ", chat_id: " + chat_id + ", usuário: " + usuario.getNome() + ", " + usuario.getId());
+			System.out.println("Estou conversando com alguém no grupo " + titulo + ", chat_id: " + chat_id
+					+ ", usuário: " + usuario.getNome() + ", " + usuario.getId());
 
 		} else if (tipo.contains("private")) {
 
-			System.out.println("Estou conversando com alguém no privado com o usuário: " + usuario.getNome() + ", " + usuario.getId());
+			System.out.println("Estou conversando com alguém no privado com o usuário: " + usuario.getNome() + ", "
+					+ usuario.getId());
 
 		}
-		if (mensagem.contains("PORRA") && mensagem.contains(getNomeBot().toUpperCase())) {
-			
+		if (mensagem.getText().contains("PORRA") && mensagem.getText().contains(getNomeBot().toUpperCase())) {
+
 			resposta.add("Tomá no cu " + usuario.getNome());
-			
-		} else if (mensagem.contains("PEDRO")) {
-			
+
+		} else if (mensagem.getText().contains("PEDRO")) {
+
 			resposta.add("Dá o cu pro Pedio então, " + usuario.getNome());
-			
+
 		}
-		
+
 		return resposta;
 	}
 

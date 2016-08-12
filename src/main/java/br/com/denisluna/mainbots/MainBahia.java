@@ -1,4 +1,4 @@
-package br.com.denisluna.telegrambot;
+package br.com.denisluna.mainbots;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import br.com.denisluna.Telegram.TelegramAPI;
 import br.com.denisluna.bots.BahiaBot;
 
 public class MainBahia implements Runnable{

@@ -1,25 +1,32 @@
 package br.com.denisluna.bots;
 
 import java.util.ArrayList;
-import br.com.denisluna.utils.Usuario;
 import java.util.List;
+
+import br.com.denisluna.Telegram.Message;
+import br.com.denisluna.utils.Usuario;
 
 public abstract class Bot {
 	/**
-	 * Classe abstrata que permite a criação de qualquer bot
-	 * Nesta classe estão todos os métodos base como getters e setters,
-	 * além das assinaturas das rotinas básicas como responder, repetir e encaminhar mensagens 
-	 * @param nome = nome do bot
-	 * @param chat_id = chat no qual o bot participa
-	 * @param token = token recebido pelo @botfather no telegram
+	 * Classe abstrata que permite a criação de qualquer bot Nesta classe estão
+	 * todos os métodos base como getters e setters, além das assinaturas das
+	 * rotinas básicas como responder, repetir e encaminhar mensagens
+	 * 
+	 * @param nome
+	 *            = nome do bot
+	 * @param chat_id
+	 *            = chat no qual o bot participa
+	 * @param token
+	 *            = token recebido pelo @botfather no telegram
 	 */
 	protected int chat_id;
 	protected String nomebot;
 	protected String token;
 
 	/**
-	 *  Construtor do bot
-	 *  Todo bot para ser instanciado, precisa de um id de chat, nome e token
+	 * Construtor do bot Todo bot para ser instanciado, precisa de um id de
+	 * chat, nome e token
+	 * 
 	 * @param chat_id
 	 * @param nomebot
 	 * @param token
@@ -39,14 +46,16 @@ public abstract class Bot {
 	}
 
 	/**
-	 * @param token = token do bot recebito pelo botfather
+	 * @param token
+	 *            = token do bot recebito pelo botfather
 	 */
 	public void setToken(String token) {
 		this.token = token;
 	}
 
 	/**
-	 * @param chat_id = id do chat no qual o bot participa
+	 * @param chat_id
+	 *            = id do chat no qual o bot participa
 	 */
 	public void setChat_id(int chat_id) {
 		this.chat_id = chat_id;
@@ -60,7 +69,8 @@ public abstract class Bot {
 	}
 
 	/**
-	 * @param nome atribui o nome do bot
+	 * @param nome
+	 *            atribui o nome do bot
 	 */
 	public void setNomeBot(String nome) {
 		this.nomebot = nome;
@@ -75,26 +85,33 @@ public abstract class Bot {
 
 	/**
 	 * Envia resposta para uma mensagem em um determinado grupo ou contato
-	 * @param mensagem = mensagem a ser respondida;
-	 * @param titulo = titulo do chat;
-	 * @param tipo = tipo de chat ("group" ou "private");
+	 * 
+	 * @param mensagem
+	 *            = mensagem a ser respondida;
+	 * @param titulo
+	 *            = titulo do chat;
+	 * @param tipo
+	 *            = tipo de chat ("group" ou "private");
 	 * @return um arraylist com as respostas, permitindo várias respostas
 	 */
-	public abstract List<String> responde(String mensagem, String titulo, String tipo, Usuario usuario);
+	public abstract List<String> responde(Message mensagem, String titulo, String tipo, Usuario usuario);
 
 	/**
-	 * Encaminha uma mensagem para um determinado grupo
-	 * Este método é único para todos os bots
-	 * @param mensagem = mensagem a ser encaminhada;
-	 * @param tipo = tipo de chat ("group" ou "private");
+	 * Encaminha uma mensagem para um determinado grupo Este método é único para
+	 * todos os bots
+	 * 
+	 * @param mensagem
+	 *            = mensagem a ser encaminhada;
+	 * @param tipo
+	 *            = tipo de chat ("group" ou "private");
 	 * @return ArrayList com a resposta a ser encaminhada
 	 */
-	public List<String> encaminha(String mensagem, String tipo, Usuario usuario) {
+	public List<String> encaminha(Message mensagem, String tipo, Usuario usuario) {
 		List<String> resposta = new ArrayList<String>();
 		System.out.println("Recebi uma mensagem para ser encaminhada do usuário " + usuario.getNome());
 
 		// quebra a string separada pelo traço "-" String[]
-		String[] forward = mensagem.split("-");
+		String[] forward = mensagem.getText().split("-");
 		String grupo;
 		String texto;
 
@@ -155,12 +172,12 @@ public abstract class Bot {
 	 *            = tipo de chat ("group" ou "private");
 	 * @return um arraylist com as respostas, permitindo várias respostas
 	 */
-	public List<String> repete(String mensagem, String tipo, Usuario usuario) {
+	public List<String> repete(Message mensagem, String tipo, Usuario usuario) {
 		List<String> resposta = new ArrayList<String>();
 		System.out.println("Recebi uma mensagem para ser repetida do usuário " + usuario.getNome());
 
 		// quebra a string separada pelo traço "-" String[]
-		String[] repeat = mensagem.split("/rpt ");
+		String[] repeat = mensagem.getText().split("/rpt ");
 
 		String texto;
 
@@ -182,6 +199,6 @@ public abstract class Bot {
 		} else
 			return null;
 
-	}	
+	}
 
 }

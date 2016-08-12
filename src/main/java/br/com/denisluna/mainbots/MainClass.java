@@ -1,4 +1,4 @@
-package br.com.denisluna.telegrambot;
+package br.com.denisluna.mainbots;
 
 public class MainClass {
 

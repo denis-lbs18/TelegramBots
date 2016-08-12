@@ -1,19 +1,19 @@
-package br.com.denisluna.telegrambot;
+package br.com.denisluna.Telegram;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.mashape.unirest.http.HttpResponse;
-
-import br.com.denisluna.bots.Bot;
-import br.com.denisluna.utils.*;
-
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import java.io.IOException;
-import java.util.*;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import br.com.denisluna.bots.Bot;
+import br.com.denisluna.utils.DenisUtils;
+import br.com.denisluna.utils.Usuario;
 
 public final class TelegramAPI {
 
@@ -25,10 +25,10 @@ public final class TelegramAPI {
 	}
 
 	/**
-	 * Método que envia a mensagem para o grupo
+	 * Método que envia a mensagem.getText() para o grupo
 	 * 
 	 * @param chatId
-	 *            Id do chat no qual o bot recebeu a mensagem
+	 *            Id do chat no qual o bot recebeu a mensagem.getText()
 	 * @param text
 	 *            ArrayList que contém todas as mensagens a serem enviadas
 	 * @throws UnirestException
@@ -68,8 +68,6 @@ public final class TelegramAPI {
 					last_update_id = responses.getJSONObject(responses.length() - 1).getInt("update_id") + 1;
 				}
 
-				String mensagem = "";
-				String aux;
 				Usuario user = new Usuario();
 
 				for (int i = 0; i < responses.length(); i++) {
@@ -102,62 +100,65 @@ public final class TelegramAPI {
 					bot.setChat_id(chat_id);
 
 					/**
-					 * Nem toda mensagem recebida é uma string Muitas mensagens
-					 * podem ser alteração de título, foto, adição/remoção de
-					 * usuários Dentro do try, será atribuído o texto da
-					 * mensagem Se for string, segue a lógica do bot Caso
-					 * contrário, no momento mensagem recebe null
+					 * Nem toda mensagem.getText() recebida é uma string Muitas
+					 * mensagens podem ser alteração de título, foto,
+					 * adição/remoção de usuários Dentro do try, será atribuído
+					 * o texto da mensagem.getText() Se for string, segue a
+					 * lógica do bot Caso contrário, no momento
+					 * mensagem.getText() recebe null
 					 */
-					
-					try {						
-						mensagem = message.getString("text");
-					} catch (Exception e) {
+					/*
+					 * 
+					 * try { mensagem.getText() = message.getString("text"); }
+					 * catch (Exception e) {
+					 * 
+					 * mensagem.getText() = null; }
+					 */
+
+					Message mensagem = new Message(user);
+					mensagem.populaTipoMensagem(message);
+
+					/**
+					 * Se é mensagem.getText() de texto, verifica se contém /rpt
+					 * ou /fwd
+					 */
+					if (mensagem.istext()) {
 						/**
-						 * No momento, não será tratada a exception
+						 * Se a mensagem não está vazia
 						 */
-						mensagem = null;
+						if (mensagem.getText() != null && !mensagem.getText().isEmpty()) {
+							/**
+							 * Pega o tipo da conversa ao receber uma
+							 * mensagem.getText() Possíveis tipos: group para
+							 * grupo, private para privado
+							 */
+							String tipo = message.getJSONObject("chat").getString("type").trim();
+
+							if (mensagem.getText().startsWith("/fwd")) {
+								List<String> encaminha = bot.encaminha(mensagem, tipo, user);
+								sendMessage(bot.getChat_id(), encaminha);
+								continue;
+							} else if (mensagem.getText().startsWith("/rpt")) {
+								sendMessage(bot.getChat_id(), bot.repete(mensagem, tipo, user));
+								continue;
+							}
+						}
 					}
 
 					/**
-					 * Se a string foi atribuída corretamente, o fluxo do
-					 * sistema segue normalmente
+					 * Pega título do chat caso seja grupo
 					 */
-					if (mensagem != null && !mensagem.isEmpty()) {
-						/**
-						 * Atribui o texto da mensagem em uma varável auxiliar
-						 * em maiúsculo
-						 */
-						aux = DenisUtils.removeAcentos(mensagem).toUpperCase();
+					String titulo = "";
+					String tipo = message.getJSONObject("chat").getString("type").trim();
+					mensagem.setText(DenisUtils.removeAcentos(mensagem.getText()).toUpperCase());
 
-						/**
-						 * Pega o tipo da conversa ao receber uma mensagem
-						 * Possíveis tipos: group para grupo, private para
-						 * privado
-						 */
-						String tipo = message.getJSONObject("chat").getString("type").trim();
-
-						if (mensagem.contains("/fwd")) {
-							List<String> encaminha = bot.encaminha(mensagem, tipo, user);
-							sendMessage(bot.getChat_id(), encaminha);
-						}
-
-						if (mensagem.contains("/rpt")) {
-							sendMessage(bot.getChat_id(), bot.repete(mensagem, tipo, user));
-						} else {
-							/**
-							 * Pega título do chat caso seja grupo
-							 */
-							String titulo = "";
-
-							if (tipo.contains("group")) {
-								titulo = message.getJSONObject("chat").getString("title");
-								DenisUtils.gravaUsuarios(titulo, user);
-							}
-
-							sendMessage(bot.getChat_id(), bot.responde(aux, titulo, tipo, user));
-
-						}
+					if (tipo.contains("group")) {
+						titulo = message.getJSONObject("chat").getString("title");
+						DenisUtils.gravaUsuarios(titulo, user);
 					}
+
+					sendMessage(bot.getChat_id(), bot.responde(mensagem, titulo, tipo, user));
+
 				}
 			}
 		}

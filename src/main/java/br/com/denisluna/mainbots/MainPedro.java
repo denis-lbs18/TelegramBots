@@ -1,7 +1,8 @@
-package br.com.denisluna.telegrambot;
+package br.com.denisluna.mainbots;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import br.com.denisluna.Telegram.TelegramAPI;
 import br.com.denisluna.bots.PedroBot;
 
 import java.io.IOException;
