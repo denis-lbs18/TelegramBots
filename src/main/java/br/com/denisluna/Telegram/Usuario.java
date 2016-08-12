@@ -1,4 +1,4 @@
-package br.com.denisluna.utils;
+package br.com.denisluna.Telegram;
 
 public class Usuario {
 	protected int id;

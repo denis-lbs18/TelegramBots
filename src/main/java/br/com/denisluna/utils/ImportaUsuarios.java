@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 
+import br.com.denisluna.Telegram.Usuario;
+
 public class ImportaUsuarios {
 	private Scanner leitor;
 

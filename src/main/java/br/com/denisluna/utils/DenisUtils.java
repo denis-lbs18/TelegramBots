@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import br.com.denisluna.Telegram.Usuario;
+
 public class DenisUtils {
 	public static String removeAcentos(String texto) {
 		return Normalizer.normalize(texto, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");

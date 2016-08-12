@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.denisluna.Telegram.Message;
-import br.com.denisluna.utils.Usuario;
+import br.com.denisluna.Telegram.Usuario;
 
 public abstract class Bot {
 	/**

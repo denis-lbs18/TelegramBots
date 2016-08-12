@@ -13,7 +13,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import br.com.denisluna.bots.Bot;
 import br.com.denisluna.utils.DenisUtils;
-import br.com.denisluna.utils.Usuario;
 
 public final class TelegramAPI {
 

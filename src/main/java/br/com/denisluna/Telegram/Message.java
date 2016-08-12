@@ -2,8 +2,6 @@ package br.com.denisluna.Telegram;
 
 import org.json.JSONObject;
 
-import br.com.denisluna.utils.Usuario;
-
 public class Message {
 	public Usuario usuario;
 	public boolean istext = false;

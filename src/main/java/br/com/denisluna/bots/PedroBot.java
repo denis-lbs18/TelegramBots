@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.denisluna.Telegram.Message;
+import br.com.denisluna.Telegram.Usuario;
 import br.com.denisluna.utils.DenisUtils;
-import br.com.denisluna.utils.Usuario;
 
 public class PedroBot extends Bot {
 
