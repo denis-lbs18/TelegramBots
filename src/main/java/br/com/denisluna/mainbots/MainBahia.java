@@ -9,9 +9,9 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import br.com.denisluna.Telegram.TelegramAPI;
 import br.com.denisluna.bots.BahiaBot;
 
-public class MainBahia implements Runnable{
+public class MainBahia implements Runnable {
 
-	public void run(){
+	public void run() {
 		// TODO Auto-generated method stub
 
 		/**
@@ -19,9 +19,10 @@ public class MainBahia implements Runnable{
 		 */
 		BahiaBot bahia = new BahiaBot(-141839020, "Bahia", "239602877:AAG203xAxUfO64C_8zWRjuz7kog1cW9dbFQ");
 		TelegramAPI tb = new TelegramAPI(bahia.getToken());
+		bahia.setTelegram(tb);
 
-		try {			
-			tb.run(bahia);
+		try {
+			bahia.run(tb);
 		} catch (UnirestException ex) {
 			Logger.getLogger(MainBahia.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (IOException e) {

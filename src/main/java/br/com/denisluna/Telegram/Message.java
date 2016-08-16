@@ -6,6 +6,7 @@ public class Message {
 	private Usuario usuario;
 	private boolean istext = false;
 	private String text = "";
+	public Chat chat;
 	private boolean audio = false;
 	private boolean document = false;
 	private boolean photo = false;
@@ -18,6 +19,7 @@ public class Message {
 	private boolean new_chat_member = false;
 	private boolean left_chat_member = false;
 	private boolean new_chat_title = false;
+	private String file_id;
 
 	/**
 	 * @return the usuario
@@ -294,6 +296,21 @@ public class Message {
 	}
 
 	/**
+	 * @return the chat
+	 */
+	public Chat getChat() {
+		return chat;
+	}
+
+	/**
+	 * @param chat
+	 *            the chat to set
+	 */
+	public void setChat(Chat chat) {
+		this.chat = chat;
+	}
+
+	/**
 	 * @param from
 	 */
 	public Message(Usuario from) {
@@ -322,15 +339,13 @@ public class Message {
 			this.setNew_chat_photo(message.has("new_chat_photo"));
 			this.setDelete_chat_photo(message.has("delete_chat_photo"));
 
-			if (this.isAudio() || this.isVideo() || this.isVoice()) {
+			if (this.isAudio() || this.isVideo() || this.isVoice() || this.isDocument() || this.isPhoto()) {
+				this.setFileId(message);
+
 				if (message.has("caption")) {
 					this.setCaption(message.getString("caption"));
 					this.setHascaption(true);
 				}
-				if (this.isAudio())
-					System.out.println(message.getJSONObject("audio").get("file_id"));
-				if (this.isVoice())
-					System.out.println(message.getJSONObject("voice").get("file_id"));
 
 			} else if (this.isNew_chat_member()) {
 				Usuario user = new Usuario(message.getJSONObject("new_chat_member").getInt("id"),
@@ -341,4 +356,22 @@ public class Message {
 		}
 	}
 
+	public void setFileId(JSONObject message) {
+		if (this.isAudio()) {
+			this.file_id = message.getJSONObject("audio").getString("file_id");
+		} else if (this.isVideo()) {
+			this.file_id = message.getJSONObject("video").getString("file_id");
+		} else if (this.isVoice()) {
+			this.file_id = message.getJSONObject("voice").getString("file_id");
+		} else if (this.isDocument()) {
+			this.file_id = message.getJSONObject("document").getString("file_id");
+		} else if (this.isPhoto()) {
+			this.file_id = message.getJSONArray("photo").getJSONObject(0).getString("file_id");
+
+		}
+	}
+
+	public String getFileId() {
+		return this.file_id;
+	}
 }
