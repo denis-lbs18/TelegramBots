@@ -3,21 +3,21 @@ package br.com.denisluna.Telegram;
 import org.json.JSONObject;
 
 public class Message {
-	public Usuario usuario;
-	public boolean istext = false;
-	public String text = "";
-	public boolean audio = false;
-	public boolean document = false;
-	public boolean photo = false;
-	public boolean voice = false;
-	public boolean sticker = false;
-	public boolean video = false;
-	public boolean hascaption = false;
-	public String caption = "";
-	public boolean location = false;
-	public boolean new_chat_member = false;
-	public boolean left_chat_member = false;
-	public boolean new_chat_title = false;
+	private Usuario usuario;
+	private boolean istext = false;
+	private String text = "";
+	private boolean audio = false;
+	private boolean document = false;
+	private boolean photo = false;
+	private boolean voice = false;
+	private boolean sticker = false;
+	private boolean video = false;
+	private boolean hascaption = false;
+	private String caption = "";
+	private boolean location = false;
+	private boolean new_chat_member = false;
+	private boolean left_chat_member = false;
+	private boolean new_chat_title = false;
 
 	/**
 	 * @return the usuario
@@ -322,10 +322,15 @@ public class Message {
 			this.setNew_chat_photo(message.has("new_chat_photo"));
 			this.setDelete_chat_photo(message.has("delete_chat_photo"));
 
-			if (this.isAudio() || this.isVideo()) {
+			if (this.isAudio() || this.isVideo() || this.isVoice()) {
 				if (message.has("caption")) {
 					this.setCaption(message.getString("caption"));
+					this.setHascaption(true);
 				}
+				if (this.isAudio())
+					System.out.println(message.getJSONObject("audio").get("file_id"));
+				if (this.isVoice())
+					System.out.println(message.getJSONObject("voice").get("file_id"));
 
 			} else if (this.isNew_chat_member()) {
 				Usuario user = new Usuario(message.getJSONObject("new_chat_member").getInt("id"),

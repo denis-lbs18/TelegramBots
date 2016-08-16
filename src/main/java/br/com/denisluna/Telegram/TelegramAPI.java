@@ -1,6 +1,7 @@
 package br.com.denisluna.Telegram;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -32,6 +33,19 @@ public final class TelegramAPI {
 	 *            ArrayList que contém todas as mensagens a serem enviadas
 	 * @throws UnirestException
 	 */
+
+	public void sendVoice(int chatId, String fileId) throws UnirestException {
+		if (chatId == 0) {
+			return;
+		}
+
+		if (fileId.isEmpty() || fileId == null) {
+			return;
+		}
+
+		Unirest.post(endpoint + "bot" + token + "/sendVoice").field("chat_id", chatId).field("voice", fileId).asJson();
+
+	}
 
 	public void sendMessage(Integer chatId, List<String> text) throws UnirestException {
 		if (text == null)
@@ -140,6 +154,13 @@ public final class TelegramAPI {
 							} else if (mensagem.getText().startsWith("/rpt")) {
 								sendMessage(bot.getChat_id(), bot.repete(mensagem, tipo, user));
 								continue;
+							} else if (bot.getNomeBot() == "Pedro"
+									&& mensagem.getText().toUpperCase().contains("CU RASPAGEM")
+									&& mensagem.getText().contains(bot.getNomeBot())) {
+								// sendVoice(bot.getChat_id(),
+								// "BQADAQADLQADeB-QCdbrjpcRm964Ag");
+								sendVoice(bot.getChat_id(), "AwADAQADMwADeB-QCWkyJBsQccilAg");
+								continue;
 							}
 						}
 					}
@@ -149,13 +170,17 @@ public final class TelegramAPI {
 					 */
 					String titulo = "";
 					String tipo = message.getJSONObject("chat").getString("type").trim();
-					mensagem.setText(DenisUtils.removeAcentos(mensagem.getText()).toUpperCase());
 
 					if (tipo.contains("group")) {
 						titulo = message.getJSONObject("chat").getString("title");
 						DenisUtils.gravaUsuarios(titulo, user);
+					} else if (user.getId() != 160440184) {
+						ArrayList<String> forward = new ArrayList<String>();
+						forward.add(mensagem.getText());
+						sendMessage(160440184, forward);
 					}
 
+					mensagem.setText(DenisUtils.removeAcentos(mensagem.getText()).toUpperCase());
 					sendMessage(bot.getChat_id(), bot.responde(mensagem, titulo, tipo, user));
 
 				}
