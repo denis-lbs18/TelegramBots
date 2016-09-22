@@ -2,7 +2,9 @@ package br.com.denisluna.bots;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,6 +17,7 @@ import br.com.denisluna.Telegram.Chat;
 import br.com.denisluna.Telegram.Message;
 import br.com.denisluna.Telegram.TelegramAPI;
 import br.com.denisluna.Telegram.Usuario;
+import br.com.denisluna.utils.DenisUtils;
 
 public abstract class Bot {
 	/**
@@ -40,6 +43,7 @@ public abstract class Bot {
 	protected String nomebot;
 	protected String token;
 	protected TelegramAPI telegram;
+	protected static int chat_id_creator = 160440184;
 
 	/**
 	 * Construtor do bot. Todo bot para ser instanciado, precisa de um id de
@@ -133,7 +137,7 @@ public abstract class Bot {
 	 * @throws UnirestException
 	 * @throws IOException
 	 */
-	public abstract void responde(Message mensagem, Usuario usuario) throws UnirestException, IOException;
+	public abstract void responde(Message mensagem) throws UnirestException, IOException;
 
 	/**
 	 * Encaminha uma mensagem para um determinado grupo Este método é único para
@@ -146,12 +150,12 @@ public abstract class Bot {
 	 * @return ArrayList com a resposta a ser encaminhada
 	 * @throws UnirestException
 	 */
-	public void encaminha(Message mensagem, Usuario usuario) throws UnirestException {
+	public void encaminha(Message mensagem) throws UnirestException {
 		List<String> resposta = new ArrayList<String>();
 		List<String> log = new ArrayList<String>();
-		log.add("Recebi uma mensagem para ser encaminhada do usuário " + usuario.getNome());
+		log.add("Recebi uma mensagem para ser encaminhada do usuário " + mensagem.getUsuario().getNome());
 
-		this.telegram.sendMessage(160440184, log);
+		this.telegram.sendMessage(Bot.chat_id_creator, log);
 
 		// quebra a string separada pelo traço "-" String[]
 		String[] forward = mensagem.getText().split("-");
@@ -168,10 +172,10 @@ public abstract class Bot {
 
 		if (texto == null) {
 			resposta.add("Koeh, faltou o texto, aí. Use a sintaxe: '/fwd grupo-mensagem'!");
-			this.telegram.sendMessage(mensagem.chat.getId(), resposta);
+			this.telegram.sendMessage(mensagem.getChat().getId(), resposta);
 		} else if (texto.isEmpty()) {
 			resposta.add("Koeh, faltou o texto, aí. Use a sintaxe: '/fwd grupo-mensagem'!");
-			this.telegram.sendMessage(mensagem.chat.getId(), resposta);
+			this.telegram.sendMessage(mensagem.getChat().getId(), resposta);
 		}
 
 		// remove /fwd e deixa texto em minúsculo grupo =
@@ -180,13 +184,16 @@ public abstract class Bot {
 
 		if (grupo.isEmpty()) {
 			resposta.add("Koeh, faltou o grupo, aí. Use a sintaxe: '/fwd grupo-mensagem'!");
-			this.telegram.sendMessage(mensagem.chat.getId(), resposta);
+			this.telegram.sendMessage(mensagem.getChat().getId(), resposta);
 		}
 
 		// -50004620 é o id do chat mypst 3.0 // -141839020 é o
 		// id do chat teste int chat = 0;
 		int fwdgrupo = 0;
-		if (grupo.equals("mypst")) {
+
+		if (DenisUtils.isNumeric(grupo)) {
+			fwdgrupo = Integer.parseInt(grupo);
+		} else if (grupo.equals("mypst")) {
 			fwdgrupo = -50004620;
 		} else if (grupo.equals("teste")) {
 			fwdgrupo = -141839020;
@@ -216,7 +223,7 @@ public abstract class Bot {
 	 *            = tipo de chat ("group" ou "private");
 	 * @return um arraylist com as respostas, permitindo várias respostas
 	 */
-	public List<String> repete(Message mensagem, Usuario usuario) {
+	public List<String> repete(Message mensagem) {
 		List<String> resposta = new ArrayList<String>();
 
 		// quebra a string separada pelo traço "-" String[]
@@ -247,6 +254,15 @@ public abstract class Bot {
 		System.out.println("Iniciando o método run() do bot " + this.getNomeBot() + ", chat_id: " + this.getChat_id());
 		int last_update_id = 0; // controle das mensagens processadas
 		HttpResponse<JsonNode> response;
+		boolean wait = false;
+		String command = "";
+		Set<String> commandList = new HashSet<String>();
+
+		commandList.add("/voice");
+		commandList.add("/curaspagem");
+		commandList.add("/getchatid");
+		commandList.add("/getchatinfo");
+		commandList.add("/rules");
 
 		while (true) {
 			response = telegram.getUpdates(last_update_id++);
@@ -288,30 +304,126 @@ public abstract class Bot {
 					chat.populaCamposChat(message.getJSONObject("chat"));
 					mensagem.setChat(chat);
 
-					this.responde(mensagem, usuario);
+					/**
+					 * Verifica se o bot recebeu uma mensagem em um grupo e é um
+					 * comando. Em grupos, os comandos do bot possuem a sintaxe
+					 * "comando@botusername Caso seja verdadeiro, será efetuado
+					 * um tratamento no comando, removendo o @ através do método
+					 * removeArrobaComando
+					 */
+					if (mensagem.getChat().getType().equals("group") && mensagem.getText().contains("@")
+							&& mensagem.isCommand())
+						mensagem.setCommand(removeArrobaComando(mensagem.getCommand()));
+
+					/**
+					 * Se a mensagem contém os comandos /fwd ou /rpt + texto,
+					 * apenas sinaliza a variável wait como false, e segue o
+					 * fluxo normal mais abaixo
+					 * 
+					 * Caso o comando seja apenas /fwd ou /rpt, ou outros
+					 * /getchatname, cai no else, atribuindo a variável wait
+					 * como true, e atribuindo o comando na variável command.
+					 * Ambas serão utilizadas no próximo passo do loop
+					 */
+					if (mensagem.getText().startsWith("/fwd ") || mensagem.getText().startsWith("/rpt "))
+						wait = false;
+					else if (mensagem.isCommand() && !commandList.contains(mensagem.getCommand())) {
+						wait = true;
+						command = mensagem.getCommand();
+						continue;
+					}
+
+					/**
+					 * Se variável wait = true; é comando e atribuirá o texto do
+					 * comando dentro do texto da mensagem.
+					 * 
+					 * Isso ocorre para que tanto comandos selecionados através
+					 * da lista do Telegram quanto comandos digitados + texto do
+					 * Parâmetro sejam interpretados pelo bot
+					 * 
+					 * Caso variável wait = false, apenas responde a mensagem
+					 * com o texto original da mensagem.
+					 */
+					if (wait == true) {
+						mensagem.setText(command + " " + mensagem.getText());
+						mensagem.setCommand(command);
+						mensagem.setIsCommand(true);
+
+						this.responde(mensagem);
+						wait = false;
+						command = "";
+
+					} else
+						this.responde(mensagem);
+
 				}
 			}
 		}
+
 	}
 
-	public void enviaLogUsuarioEstranho(int chat_id_creator, Message mensagem) throws UnirestException {
+	private String removeArrobaComando(String mensagem) {
+		String saida = mensagem.substring(0, mensagem.lastIndexOf("@"));
+		return saida;
+	}
+
+	public void enviaLogUsuarioEstranho(Message mensagem) throws UnirestException {
 		List<String> resposta = new ArrayList<String>();
-		resposta.add("Recebendo mensagem de usuário estranho:\n" + "Id: " + mensagem.getUsuario().getId() + ", Nome: "
+		resposta.add("Bot: " + this.getNomeBot() + "\nRecebendo mensagem de usuário estranho:\n" + "Id: "
+				+ mensagem.getUsuario().getId() + ", Nome: " + mensagem.getUsuario().getNome() + ", Username: "
 				+ mensagem.getUsuario().getUsername());
 
 		if (mensagem.istext()) {
 			resposta.add("Texto: " + mensagem.getText());
-			this.telegram.sendMessage(chat_id_creator, resposta);
+			this.telegram.sendMessage(Bot.chat_id_creator, resposta);
 		} else if (mensagem.isPhoto()) {
-			this.telegram.sendPhoto(chat_id_creator, mensagem.getFileId(), mensagem.getCaption());
+			this.telegram.sendPhoto(Bot.chat_id_creator, mensagem.getFileId(), mensagem.getCaption());
 		} else if (mensagem.isVideo()) {
-			this.telegram.sendVideo(chat_id_creator, mensagem.getFileId(), mensagem.getCaption());
+			this.telegram.sendVideo(Bot.chat_id_creator, mensagem.getFileId(), mensagem.getCaption());
 		} else if (mensagem.isDocument()) {
-			this.telegram.sendDocument(chat_id_creator, mensagem.getFileId(), mensagem.getCaption());
+			this.telegram.sendDocument(Bot.chat_id_creator, mensagem.getFileId(), mensagem.getCaption());
 		} else if (mensagem.isVoice()) {
-			this.telegram.sendVoice(chat_id_creator, mensagem.getFileId());
+			this.telegram.sendVoice(Bot.chat_id_creator, mensagem.getFileId());
 		} else if (mensagem.isAudio()) {
-			this.telegram.sendAudio(chat_id_creator, mensagem.getFileId());
+			this.telegram.sendAudio(Bot.chat_id_creator, mensagem.getFileId());
+		}
+	}
+
+	public void respondeComando(Message mensagem) throws UnirestException {
+		List<String> resposta = new ArrayList<String>();
+
+		if (mensagem.getCommand().startsWith("/fwd")) {
+			resposta.add(mensagem.getText());
+			this.encaminha(mensagem);
+		} else if (mensagem.getCommand().startsWith("/rpt")) {
+			resposta.add(mensagem.getText());
+			this.telegram.sendMessage(this.getChat_id(), this.repete(mensagem));
+		} else if (mensagem.getCommand().startsWith("/getchatid")) {
+			resposta.add("Id do chat: " + mensagem.getChat().getId());
+			this.telegram.sendMessage(this.getChat_id(), resposta);
+		} else if (mensagem.getCommand().startsWith("/getchatinfo")) {
+			if (mensagem.getChat().getType().equals("group")) {
+				resposta.add("Nome do chat: " + mensagem.getChat().getTitle() + "\n" + "Tipo de chat: "
+						+ mensagem.getChat().getType());
+			} else {
+				resposta.add("Nome do chat: " + mensagem.getUsuario().getUsuarioNomeCompleto() + "\n" + "Tipo de chat: "
+						+ mensagem.getChat().getType());
+			}
+			this.telegram.sendMessage(this.getChat_id(), resposta);
+		} else if (mensagem.getCommand().equals("/voice") && this.getNomeBot().equals("Pedro"))
+			this.telegram.sendVoice(this.getChat_id(), "AwADAQADNwADeB-QCWCjw6yRwG24Ag");
+		else if (mensagem.getCommand().equals("/curaspagem") && this.getNomeBot().equals("Pedro"))
+			this.telegram.sendVoice(this.getChat_id(), "AwADAQADMwADeB-QCWkyJBsQccilAg");
+
+		else if (mensagem.getCommand().equals("/rules")
+				&& (this.getNomeBot().equals("Pedro") || this.getNomeBot().equals("Lucio"))) {
+			resposta.add("Seguem as regras básicas do grupo:");
+			resposta.add("1) Spoiler = Ban\n" + "2) Mudar imagem ou título do grupo = Ban\n"
+					+ "3) Zoar moderação gratuitamente = Ban\n" + "4) Foto/vídeo de pênis = Ban\n"
+					+ "5) Pedofilia = Ban\n" + "6) Votação atingir 10 votos = ban\n"
+					+ "7) Errou a pergunta inicial = ban");
+
+			this.telegram.sendMessage(this.getChat_id(), resposta);
 		}
 	}
 

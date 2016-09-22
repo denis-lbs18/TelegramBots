@@ -115,13 +115,13 @@ public class Chat {
 			this.setTitle(chat.getString("title"));
 
 		if (chat.has("username"))
-			this.setTitle(chat.getString("username"));
+			this.setUsername(chat.getString("username"));
 
 		if (chat.has("first_name"))
-			this.setTitle(chat.getString("first_name"));
+			this.setFirst_name(chat.getString("first_name"));
 
 		if (chat.has("last_name"))
-			this.setTitle(chat.getString("last_name"));
+			this.setLast_name(chat.getString("last_name"));
 	}
 
 }

@@ -6,7 +6,7 @@ public class Message {
 	private Usuario usuario;
 	private boolean istext = false;
 	private String text = "";
-	public Chat chat;
+	private Chat chat;
 	private boolean audio = false;
 	private boolean document = false;
 	private boolean photo = false;
@@ -19,6 +19,8 @@ public class Message {
 	private boolean new_chat_member = false;
 	private boolean left_chat_member = false;
 	private boolean new_chat_title = false;
+	private boolean iscommand = false;
+	private String command;
 	private String file_id;
 
 	/**
@@ -310,6 +312,26 @@ public class Message {
 		this.chat = chat;
 	}
 
+	public String getFileId() {
+		return this.file_id;
+	}
+
+	public boolean isCommand() {
+		return iscommand;
+	}
+
+	public void setIsCommand(boolean iscommand) {
+		this.iscommand = iscommand;
+	}
+
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
 	/**
 	 * @param from
 	 */
@@ -323,8 +345,14 @@ public class Message {
 		 * Tentativa por texto
 		 */
 		if (message.has("text")) {
-			this.setText(message.getString("text"));
-			this.setIstext(true);
+			this.setText(message.getString("text").trim());
+
+			if (this.getText().startsWith("/")) {
+				this.setIsCommand(true);
+				this.setCommand(this.getText());
+			} else
+				this.setIstext(true);
+
 		} else {
 			this.setPhoto(message.has("photo"));
 			this.setDocument(message.has("document"));
@@ -369,9 +397,5 @@ public class Message {
 			this.file_id = message.getJSONArray("photo").getJSONObject(0).getString("file_id");
 
 		}
-	}
-
-	public String getFileId() {
-		return this.file_id;
 	}
 }

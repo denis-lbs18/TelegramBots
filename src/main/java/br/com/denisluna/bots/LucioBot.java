@@ -7,7 +7,6 @@ import java.util.List;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import br.com.denisluna.Telegram.Message;
-import br.com.denisluna.Telegram.Usuario;
 import br.com.denisluna.utils.DenisUtils;
 
 public class LucioBot extends Bot {
@@ -17,27 +16,17 @@ public class LucioBot extends Bot {
 	}
 
 	@Override
-	public void responde(Message mensagem, Usuario usuario) throws UnirestException, IOException {
+	public void responde(Message mensagem) throws UnirestException, IOException {
 		List<String> resposta = new ArrayList<String>();
-		int chat_id_creator = 160440184;
 
-		if (mensagem.chat.getType().equals("group")) {
-			DenisUtils.gravaUsuarios(mensagem.chat.getTitle(), usuario);
-		} else if (usuario.getId() != chat_id_creator) {
-			enviaLogUsuarioEstranho(chat_id_creator, mensagem);
-			return;
+		if (mensagem.getChat().getType().equals("group")) {
+			DenisUtils.gravaUsuarios(mensagem.getChat().getTitle(), mensagem.getUsuario());
+		} else if (mensagem.getUsuario().getId() != Bot.chat_id_creator) {
+			enviaLogUsuarioEstranho(mensagem);
 		}
 
-		if (mensagem.getText().startsWith("/fwd")) {
-
-			resposta.add(mensagem.getText());
-			this.encaminha(mensagem, usuario);
-			return;
-
-		} else if (mensagem.getText().startsWith("/rpt")) {
-
-			resposta.add(mensagem.getText());
-			this.telegram.sendMessage(this.getChat_id(), this.repete(mensagem, usuario));
+		if (mensagem.isCommand()) {
+			this.respondeComando(mensagem);
 			return;
 		}
 
@@ -45,15 +34,13 @@ public class LucioBot extends Bot {
 
 		if (mensagem.getText().contains("PORRA") && mensagem.getText().contains(getNomeBot().toUpperCase())) {
 
-			resposta.add("Tomá no cu " + usuario.getNome());
-			this.telegram.sendMessage(this.getChat_id(), this.repete(mensagem, usuario));
-			return;
+			resposta.add("Tomá no cu " + mensagem.getUsuario().getNome());
+			this.telegram.sendMessage(this.getChat_id(), resposta);
 
 		} else if (mensagem.getText().contains("PEDRO")) {
 
-			resposta.add("Dá o cu pro Pedio então, " + usuario.getNome());
-			this.telegram.sendMessage(this.getChat_id(), this.repete(mensagem, usuario));
-			return;
+			resposta.add("Dá o cu pro Pedio então, " + mensagem.getUsuario().getNome());
+			this.telegram.sendMessage(this.getChat_id(), resposta);
 
 		}
 	}

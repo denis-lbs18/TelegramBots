@@ -18,8 +18,9 @@ public class ImportaUsuarios {
 		while (leitor.hasNextLine()) {
 			String linha = leitor.nextLine();
 			String dados[] = linha.split(";");
-			
-			int usuario_id = Integer.parseInt(dados[0]);
+
+			long usuario_id = Long.parseLong(dados[0]);
+
 			String usuario_nome = dados[1];
 			String usuario_sobrenome = dados[2];
 			String usuario_username = dados[3];
