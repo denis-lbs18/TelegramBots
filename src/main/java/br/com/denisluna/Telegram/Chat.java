@@ -110,6 +110,14 @@ public class Chat {
 		this.last_name = last_name;
 	}
 
+	public String getFileName() {
+		if (this.getType().equals("group")) {
+			return this.getTitle();
+		} else {
+			return this.getFirst_name();
+		}
+	}
+
 	public void populaCamposChat(JSONObject chat) {
 		if (chat.has("title"))
 			this.setTitle(chat.getString("title"));

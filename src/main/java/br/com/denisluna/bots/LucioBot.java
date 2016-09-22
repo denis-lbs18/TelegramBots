@@ -20,7 +20,7 @@ public class LucioBot extends Bot {
 		List<String> resposta = new ArrayList<String>();
 
 		if (mensagem.getChat().getType().equals("group")) {
-			DenisUtils.gravaUsuarios(mensagem.getChat().getTitle(), mensagem.getUsuario());
+			DenisUtils.gravaUsuarios(mensagem.getChat().getFileName(), mensagem.getUsuario());
 		} else if (mensagem.getUsuario().getId() != Bot.chat_id_creator) {
 			enviaLogUsuarioEstranho(mensagem);
 		}

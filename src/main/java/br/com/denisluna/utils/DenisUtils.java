@@ -78,8 +78,8 @@ public class DenisUtils {
 
 	}
 
-	public static void gravaUsuarios(String grupo, Usuario usuario) throws IOException {
-		File f = new File(grupo + ".txt");
+	public static void gravaUsuarios(String filename, Usuario usuario) throws IOException {
+		File f = new File(filename + ".txt");
 		if (!f.exists()) {
 			f.createNewFile();
 		}
@@ -92,7 +92,7 @@ public class DenisUtils {
 
 		usuarios.add(usuario);
 
-		PrintStream printStream = new PrintStream(grupo + ".txt");
+		PrintStream printStream = new PrintStream(filename + ".txt");
 
 		for (Usuario user : usuarios) {
 			printStream.println(user.toString());
