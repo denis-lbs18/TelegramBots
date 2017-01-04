@@ -1,2 +1,0 @@
-Usuário [id=160440184 firstName=Denis, lastName=Luna, username=denis_lbs18]
-Teste.txt
