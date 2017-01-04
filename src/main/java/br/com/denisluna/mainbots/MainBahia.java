@@ -8,6 +8,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import br.com.denisluna.Telegram.TelegramAPI;
 import br.com.denisluna.bots.BahiaBot;
+import br.com.denisluna.bots.Bot;
 
 public class MainBahia implements Runnable {
 
@@ -17,7 +18,7 @@ public class MainBahia implements Runnable {
 		/**
 		 * inicia uma nova instância do bot, passando o id do chat
 		 */
-		BahiaBot bahia = new BahiaBot(-141839020, "Bahia", "239602877:AAG203xAxUfO64C_8zWRjuz7kog1cW9dbFQ");
+		Bot bahia = new BahiaBot(-141839020, "Bahia", "239602877:AAG203xAxUfO64C_8zWRjuz7kog1cW9dbFQ");
 		TelegramAPI tb = new TelegramAPI(bahia.getToken());
 		bahia.setTelegram(tb);
 

@@ -356,6 +356,12 @@ public class PedroBot extends Bot {
 			resposta.add("Caraca " + mensagem.getUsuario().getNome() + ", que imagem pica é essa?");
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
+		} else if (mensagem.getUsuario().getNome().equals("Fernando")) {
+
+			resposta.add("Fernando");
+			resposta.add("Tá sumido");
+			this.telegram.sendMessage(this.getChat_id(), resposta);
+
 		}
 
 	}

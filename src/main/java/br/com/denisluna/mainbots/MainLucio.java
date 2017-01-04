@@ -8,15 +8,10 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import br.com.denisluna.Telegram.TelegramAPI;
 import br.com.denisluna.bots.Bot;
-import br.com.denisluna.bots.PedroBot;
+import br.com.denisluna.bots.LucioBot;
 
-/**
- * 
- * @author denisluna
- * @category Bots
- * @version 1.0.0 @
- */
-public class MainPedro implements Runnable {
+public class MainLucio implements Runnable {
+
 	public void run() {
 		/**
 		 * Inicia o bot do telegram com o token dado pelo botfather Para o bot
@@ -28,12 +23,12 @@ public class MainPedro implements Runnable {
 		 * inicia uma nova instância do bot, passando o id do chat
 		 */
 
-		Bot pedro = new PedroBot(-50004620, "Pedro", "269671710:AAEJtxNRatFkaD6Bk_ra3peyRfFDkQtpQPM");
-		TelegramAPI tb = new TelegramAPI(pedro.getToken());
-		pedro.setTelegram(tb);
+		Bot lucio = new LucioBot(-50004620, "Lucio", "268994751:AAGQUiHc4FpxlGlLPNdTTUciA6TJ0ifB03U");
+		TelegramAPI tb = new TelegramAPI(lucio.getToken());
+		lucio.setTelegram(tb);
 
 		try {
-			pedro.run(tb);
+			lucio.run(tb);
 		} catch (UnirestException ex) {
 			Logger.getLogger(MainPedro.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (IOException e) {
@@ -42,4 +37,5 @@ public class MainPedro implements Runnable {
 		}
 
 	}
+
 }

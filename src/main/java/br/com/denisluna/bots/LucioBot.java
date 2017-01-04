@@ -42,7 +42,31 @@ public class LucioBot extends Bot {
 			resposta.add("Dá o cu pro Pedio então, " + mensagem.getUsuario().getNome());
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
+		} else if (mensagem.getText().toUpperCase().contains("KLEBER")
+				|| mensagem.getUsuario().getNome().equals("Kléber")) {
+
+			resposta.add("Ae Kebe otario");
+			resposta.add("Entra no Destiny pra pegar baú com possível arma exótica ");
+			this.telegram.sendMessage(this.getChat_id(), resposta);
+
+		} else if (mensagem.getText().contains("FAUSTAO")) {
+
+			resposta.add("Tá na hora de ir pra casa do coleguinha");
+			resposta.add("Mas só na brotheragem, claro");
+			this.telegram.sendMessage(this.getChat_id(), resposta);
+
+		} else if (mensagem.getText().contains(this.getNomeBot().toUpperCase())) {
+
+			resposta.add("Fala, caraio");
+			resposta.add("E Pedio, to te deveno quanto ?");
+			this.telegram.sendMessage(this.getChat_id(), resposta);
+
 		}
+	}
+
+	@Override
+	public void respondeComando(Message mensagem)
+			throws UnirestException {/** Não executa comando **/
 	}
 
 }

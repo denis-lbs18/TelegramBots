@@ -7,10 +7,14 @@ public class MainClass {
 		MainPedro pedro = new MainPedro();
 		Thread threadPedro = new Thread(pedro);
 		threadPedro.start();
-		
+
 		MainBahia bahia = new MainBahia();
 		Thread threadBahia = new Thread(bahia);
-		threadBahia.start();		
+		threadBahia.start();
+
+		MainLucio lucio = new MainLucio();
+		Thread threadLucio = new Thread(lucio);
+		threadLucio.start();
 
 	}
 

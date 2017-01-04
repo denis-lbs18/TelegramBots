@@ -263,6 +263,7 @@ public abstract class Bot {
 		commandList.add("/getchatid");
 		commandList.add("/getchatinfo");
 		commandList.add("/rules");
+		commandList.add("/cher");
 
 		while (true) {
 			response = telegram.getUpdates(last_update_id++);
@@ -415,13 +416,18 @@ public abstract class Bot {
 		else if (mensagem.getCommand().equals("/curaspagem") && this.getNomeBot().equals("Pedro"))
 			this.telegram.sendVoice(this.getChat_id(), "AwADAQADMwADeB-QCWkyJBsQccilAg");
 
-		else if (mensagem.getCommand().equals("/rules")
+		else if (mensagem.getCommand().equals("/cher")) {
+			resposta.add("Me chama de Cher! ");
+			resposta.add("Me chama de Cher! ");
+			this.telegram.sendMessage(this.getChat_id(), resposta);
+
+		} else if (mensagem.getCommand().equals("/rules")
 				&& (this.getNomeBot().equals("Pedro") || this.getNomeBot().equals("Lucio"))) {
 			resposta.add("Seguem as regras básicas do grupo:");
 			resposta.add("1) Spoiler = Ban\n" + "2) Mudar imagem ou título do grupo = Ban\n"
 					+ "3) Zoar moderação gratuitamente = Ban\n" + "4) Foto/vídeo de pênis = Ban\n"
 					+ "5) Pedofilia = Ban\n" + "6) Votação atingir 10 votos = ban\n"
-					+ "7) Errou a pergunta inicial = ban");
+					+ "7) Errou a pergunta inicial = ban\n" + "8) Gore sem aviso = ban");
 
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 		}

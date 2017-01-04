@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.denisluna</groupId>
-  <artifactId>tarcitanobot</artifactId>
+  <artifactId>TelegramBots</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>TelegramBots</name>
 <dependencies>
@@ -29,16 +29,6 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20140107</version>
-        </dependency>
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-translate</artifactId>
-			<version>v2-rev47-1.22.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-drive</artifactId>
-			<version>v3-rev37-1.22.0</version>
-		</dependency>		
+        </dependency>		
     </dependencies>
 </project>

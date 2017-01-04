@@ -1,0 +1,14 @@
+br/com/denisluna/mainbots/MainBahia.class
+br/com/denisluna/Telegram/TelegramAPI.class
+br/com/denisluna/bots/PedroBot.class
+br/com/denisluna/Telegram/Message.class
+br/com/denisluna/mainbots/MainLucio.class
+br/com/denisluna/bots/BahiaBot.class
+br/com/denisluna/Telegram/Usuario.class
+br/com/denisluna/bots/Bot.class
+br/com/denisluna/mainbots/MainClass.class
+br/com/denisluna/mainbots/MainPedro.class
+br/com/denisluna/Telegram/Chat.class
+br/com/denisluna/bots/LucioBot.class
+br/com/denisluna/utils/DenisUtils.class
+br/com/denisluna/utils/ImportaUsuarios.class
