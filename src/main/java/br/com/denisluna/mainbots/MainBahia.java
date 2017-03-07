@@ -12,9 +12,8 @@ import br.com.denisluna.bots.Bot;
 
 public class MainBahia implements Runnable {
 
+	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-
 		/**
 		 * inicia uma nova instância do bot, passando o id do chat
 		 */
@@ -27,7 +26,6 @@ public class MainBahia implements Runnable {
 		} catch (UnirestException ex) {
 			Logger.getLogger(MainBahia.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

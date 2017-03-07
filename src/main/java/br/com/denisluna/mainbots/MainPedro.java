@@ -17,6 +17,7 @@ import br.com.denisluna.bots.PedroBot;
  * @version 1.0.0 @
  */
 public class MainPedro implements Runnable {
+	@Override
 	public void run() {
 		/**
 		 * Inicia o bot do telegram com o token dado pelo botfather Para o bot
@@ -37,7 +38,6 @@ public class MainPedro implements Runnable {
 		} catch (UnirestException ex) {
 			Logger.getLogger(MainPedro.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

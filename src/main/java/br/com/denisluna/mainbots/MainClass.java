@@ -3,7 +3,6 @@ package br.com.denisluna.mainbots;
 public class MainClass {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		MainPedro pedro = new MainPedro();
 		Thread threadPedro = new Thread(pedro);
 		threadPedro.start();
@@ -15,7 +14,6 @@ public class MainClass {
 		MainLucio lucio = new MainLucio();
 		Thread threadLucio = new Thread(lucio);
 		threadLucio.start();
-
 	}
 
 }
