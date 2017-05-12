@@ -10,10 +10,10 @@ public class MainClass {
 		MainBahia bahia = new MainBahia();
 		Thread threadBahia = new Thread(bahia);
 		threadBahia.start();
-
-		MainLucio lucio = new MainLucio();
-		Thread threadLucio = new Thread(lucio);
-		threadLucio.start();
+		/*
+		 * MainLucio lucio = new MainLucio(); Thread threadLucio = new
+		 * Thread(lucio); threadLucio.start();
+		 */
 	}
 
 }

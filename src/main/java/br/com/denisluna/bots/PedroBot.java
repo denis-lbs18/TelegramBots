@@ -124,7 +124,7 @@ public class PedroBot extends Bot {
 		} else if (mensagem.getText().contains("MARCOS") || mensagem.getText().contains("BARCOS")
 				|| mensagem.getText().contains("BARCOX")) {
 
-			resposta.add("Barcox, cadê você?");
+			resposta.add("Barcox, cadê você");
 			resposta.add("Na moral");
 			resposta.add("Tô com saudades");
 			resposta.add("Serinho!");
@@ -164,7 +164,7 @@ public class PedroBot extends Bot {
 		} else if (mensagem.getText().contains("CHUPA")
 				&& mensagem.getText().contains(this.getNomeBot().toUpperCase())) {
 
-			resposta.add("Vou chupar é o CARALHO, " + mensagem.getUsuario().getNome());
+			resposta.add("Vou chupar aí o CARALHO, " + mensagem.getUsuario().getNome());
 			resposta.add("Não, pera...");
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
@@ -221,7 +221,7 @@ public class PedroBot extends Bot {
 			resposta.add("Koeh");
 			resposta.add("Na moral");
 			resposta.add("Sério mesmo");
-			resposta.add(mensagem.getUsuario().getNome() + ", tu é pica, aí!");
+			resposta.add(mensagem.getUsuario().getNome() + ", tu é pica, aí");
 			resposta.add("Serinho");
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
@@ -257,7 +257,12 @@ public class PedroBot extends Bot {
 
 		} else if (mensagem.getText().contains("TOP")) {
 
-			resposta.add("🔝🔝🔝👌😂👌");
+			resposta.add("👌😂👌🔝");
+			this.telegram.sendMessage(this.getChat_id(), resposta);
+
+		} else if (mensagem.getText().contains("😂")) {
+
+			resposta.add("👌😂👌🔝");
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
 		} else if (mensagem.getText().contains("LUCIO")) {
@@ -346,7 +351,7 @@ public class PedroBot extends Bot {
 			resposta.add("Koeh Mamelli, todo dia um novo 7 a 1?");
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
-		} else if (mensagem.getUsuario().getUsuarioNomeCompleto().equals("André Vasconcelos")) {
+		} else if (mensagem.getUsuario().getUsuarioNomeCompleto().equals("AndrÃ© Vasconcelos")) {
 
 			resposta.add("Manga, EU TE AMO!");
 			this.telegram.sendMessage(this.getChat_id(), resposta);
@@ -363,6 +368,5 @@ public class PedroBot extends Bot {
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
 		}
-
 	}
 }
