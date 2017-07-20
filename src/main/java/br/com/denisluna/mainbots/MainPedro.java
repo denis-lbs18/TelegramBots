@@ -17,7 +17,6 @@ import br.com.denisluna.bots.PedroBot;
  * @version 1.0.0 @
  */
 public class MainPedro implements Runnable {
-	@Override
 	public void run() {
 		/**
 		 * Inicia o bot do telegram com o token dado pelo botfather Para o bot
@@ -28,7 +27,6 @@ public class MainPedro implements Runnable {
 		/**
 		 * inicia uma nova instância do bot, passando o id do chat
 		 */
-
 		Bot pedro = new PedroBot(-50004620, "Pedro", "269671710:AAEJtxNRatFkaD6Bk_ra3peyRfFDkQtpQPM");
 		TelegramAPI tb = new TelegramAPI(pedro.getToken());
 		pedro.setTelegram(tb);
@@ -40,6 +38,5 @@ public class MainPedro implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 }

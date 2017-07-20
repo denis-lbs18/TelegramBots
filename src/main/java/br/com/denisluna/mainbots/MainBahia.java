@@ -11,8 +11,6 @@ import br.com.denisluna.bots.BahiaBot;
 import br.com.denisluna.bots.Bot;
 
 public class MainBahia implements Runnable {
-
-	@Override
 	public void run() {
 		/**
 		 * inicia uma nova instância do bot, passando o id do chat
@@ -29,5 +27,4 @@ public class MainBahia implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
 }

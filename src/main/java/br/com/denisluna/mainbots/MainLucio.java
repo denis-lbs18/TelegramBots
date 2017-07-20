@@ -11,8 +11,6 @@ import br.com.denisluna.bots.Bot;
 import br.com.denisluna.bots.LucioBot;
 
 public class MainLucio implements Runnable {
-
-	@Override
 	public void run() {
 		/**
 		 * Inicia o bot do telegram com o token dado pelo botfather Para o bot
@@ -35,7 +33,5 @@ public class MainLucio implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
