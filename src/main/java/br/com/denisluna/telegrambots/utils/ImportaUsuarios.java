@@ -1,4 +1,4 @@
-package br.com.denisluna.utils;
+package br.com.denisluna.telegrambots.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 
-import br.com.denisluna.Telegram.Usuario;
+import br.com.denisluna.telegrambots.types.Usuario;
 
 public class ImportaUsuarios {
 	private Scanner leitor;

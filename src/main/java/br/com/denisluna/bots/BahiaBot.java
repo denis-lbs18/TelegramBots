@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import br.com.denisluna.Telegram.Message;
-import br.com.denisluna.utils.DenisUtils;
+import br.com.denisluna.telegrambots.types.Message;
+import br.com.denisluna.telegrambots.utils.DenisUtils;
 
 public class BahiaBot extends Bot {
 
@@ -20,12 +20,12 @@ public class BahiaBot extends Bot {
 		List<String> resposta = new ArrayList<String>();
 
 		if (mensagem.getChat().getType().equals("group")) {
-			DenisUtils.gravaUsuarios(mensagem.getChat().getFileName(), mensagem.getUsuario());
-		} else if (mensagem.getUsuario().getId() != Bot.chat_id_creator) {
+			DenisUtils.gravaUsuarios(mensagem.getChat().getTitle(), mensagem.getUsuarioFrom());
+		} else if (mensagem.getUsuarioFrom().getId() != Bot.CHAT_ID_CREATOR) {
 			enviaLogUsuarioEstranho(mensagem);
 		}
 
-		if (mensagem.isCommand()) {
+		if (mensagem.getText().startsWith("/")) {
 			this.respondeComando(mensagem);
 			return;
 		}
@@ -41,38 +41,38 @@ public class BahiaBot extends Bot {
 		} else if (mensagem.getText().contains("VEM FAZER BOQUETE")
 				&& mensagem.getText().contains(getNomeBot().toUpperCase())) {
 
-			resposta.add(mensagem.getUsuario().getNome() + ", vem aqui fazer um bola gata, vem...");
+			resposta.add(mensagem.getUsuarioFrom().getNome() + ", vem aqui fazer um bola gata, vem...");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
 		} else if (mensagem.getText().contains("COMER") && mensagem.getText().contains("SUA MAE")) {
 
 			resposta.add("Ahahahahahaha... Comer a minha mãe é normal, pior é quem come vc "
-					+ mensagem.getUsuario().getNome() + "!! Feio e viadao ");
+					+ mensagem.getUsuarioFrom().getNome() + "!! Feio e viadao ");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
 		} else if (mensagem.getText().contains("COMER SUA BUNDA DE ACARAJÉ")
 				&& mensagem.getText().contains(getNomeBot().toUpperCase())) {
 
-			resposta.add("Confirmo, " + mensagem.getUsuario().getNome() + ".");
+			resposta.add("Confirmo, " + mensagem.getUsuarioFrom().getNome() + ".");
 			telegram.sendMessage(this.getChat_id(), resposta);
 			return;
 
 		} else if (mensagem.getText().contains(getNomeBot().toUpperCase())
 				&& (mensagem.getText().contains("CEARENSE") || mensagem.getText().contains("PARAIBA"))) {
 
-			resposta.add(mensagem.getUsuario().getNome()
+			resposta.add(mensagem.getUsuarioFrom().getNome()
 					+ " do cacete... Além do mais é burro!! Sou baiano imbecil de Pinto pequeno");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
 		} else if ((mensagem.getText().contains("WINDOWS 10") || mensagem.getText().contains("WINDOWS"))
 				&& mensagem.getText().contains("BOSTA")) {
 
-			resposta.add(mensagem.getUsuario().getNome() + " seu macflag do caralho!!");
+			resposta.add(mensagem.getUsuarioFrom().getNome() + " seu macflag do caralho!!");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
 		} else if (mensagem.getText().contains("NAMORADA") || mensagem.getText().contains("ESPOSA")) {
 
-			resposta.add(mensagem.getUsuario().getNome() + ", tua mina?");
+			resposta.add(mensagem.getUsuarioFrom().getNome() + ", tua mina?");
 			resposta.add("Manda ela p cá!!");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
@@ -100,7 +100,7 @@ public class BahiaBot extends Bot {
 
 		} else if (mensagem.getText().contains("CHUPA") && mensagem.getText().contains(getNomeBot().toUpperCase())) {
 
-			resposta.add("Vou chupar é o CARALHO, " + mensagem.getUsuario().getNome());
+			resposta.add("Vou chupar é o CARALHO, " + mensagem.getUsuarioFrom().getNome());
 			resposta.add("Não, pera...");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
@@ -123,24 +123,24 @@ public class BahiaBot extends Bot {
 
 		} else if (mensagem.getText().contains("CASSIO") || mensagem.getText().contains(getNomeBot().toUpperCase())) {
 
-			resposta.add("Aí " + mensagem.getUsuario().getNome() + ", meu nome é BAHOA");
+			resposta.add("Aí " + mensagem.getUsuarioFrom().getNome() + ", meu nome é BAHOA");
 			resposta.add("Putz");
 			resposta.add("Errei meu próprio nome");
 			resposta.add("E burro eh vc seu velho escroto!!");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
 			// Mensagens padrão para usuários
-		} else if (mensagem.getUsuario().getNome().contains("George")) {
+		} else if (mensagem.getUsuarioFrom().getNome().contains("George")) {
 
 			resposta.add("Jordy, eu te amo");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
-		} else if (mensagem.getUsuario().getNome().contains("José")) {
+		} else if (mensagem.getUsuarioFrom().getNome().contains("José")) {
 
 			resposta.add("Vá se foder, Zé");
 			telegram.sendMessage(this.getChat_id(), resposta);
 
-		} else if (mensagem.getUsuario().getNome().contains("Bruno")) {
+		} else if (mensagem.getUsuarioFrom().getNome().contains("Bruno")) {
 
 			resposta.add("BRUNO, EU TE AMO!");
 			telegram.sendMessage(this.getChat_id(), resposta);

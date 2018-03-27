@@ -1,4 +1,4 @@
-package br.com.denisluna.utils;
+package br.com.denisluna.telegrambots.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import br.com.denisluna.Telegram.Usuario;
+import br.com.denisluna.telegrambots.types.Usuario;
 
 public class DenisUtils {
 	public static String removeAcentos(String texto) {

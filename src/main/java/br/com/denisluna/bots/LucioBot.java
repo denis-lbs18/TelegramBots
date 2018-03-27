@@ -6,8 +6,8 @@ import java.util.List;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import br.com.denisluna.Telegram.Message;
-import br.com.denisluna.utils.DenisUtils;
+import br.com.denisluna.telegrambots.types.Message;
+import br.com.denisluna.telegrambots.utils.DenisUtils;
 
 public class LucioBot extends Bot {
 
@@ -20,12 +20,12 @@ public class LucioBot extends Bot {
 		List<String> resposta = new ArrayList<String>();
 
 		if (mensagem.getChat().getType().equals("group")) {
-			DenisUtils.gravaUsuarios(mensagem.getChat().getFileName(), mensagem.getUsuario());
-		} else if (mensagem.getUsuario().getId() != Bot.chat_id_creator) {
+			DenisUtils.gravaUsuarios(mensagem.getChat().getTitle(), mensagem.getUsuarioFrom());
+		} else if (mensagem.getUsuarioFrom().getId() != Bot.CHAT_ID_CREATOR) {
 			enviaLogUsuarioEstranho(mensagem);
 		}
 
-		if (mensagem.isCommand()) {
+		if (mensagem.getText().startsWith("/")) {
 			this.respondeComando(mensagem);
 			return;
 		}
@@ -34,16 +34,16 @@ public class LucioBot extends Bot {
 
 		if (mensagem.getText().contains("PORRA") && mensagem.getText().contains(getNomeBot().toUpperCase())) {
 
-			resposta.add("Tomá no cu " + mensagem.getUsuario().getNome());
+			resposta.add("Tomá no cu " + mensagem.getUsuarioFrom().getNome());
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
 		} else if (mensagem.getText().contains("PEDRO")) {
 
-			resposta.add("Dá o cu pro Pedio então, " + mensagem.getUsuario().getNome());
+			resposta.add("Dá o cu pro Pedio então, " + mensagem.getUsuarioFrom().getNome());
 			this.telegram.sendMessage(this.getChat_id(), resposta);
 
 		} else if (mensagem.getText().toUpperCase().contains("KLEBER")
-				|| mensagem.getUsuario().getNome().equals("Kléber")) {
+				|| mensagem.getUsuarioFrom().getNome().equals("Kléber")) {
 
 			resposta.add("Ae Kebe otario");
 			resposta.add("Entra no Destiny pra pegar baú com possível arma exótica ");

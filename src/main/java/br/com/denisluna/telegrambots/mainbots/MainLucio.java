@@ -1,4 +1,4 @@
-package br.com.denisluna.mainbots;
+package br.com.denisluna.telegrambots.mainbots;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import br.com.denisluna.Telegram.TelegramAPI;
 import br.com.denisluna.bots.Bot;
 import br.com.denisluna.bots.LucioBot;
+import br.com.denisluna.telegrambots.utils.TelegramAPIUtils;
 
 public class MainLucio implements Runnable {
 	public void run() {
@@ -23,7 +23,7 @@ public class MainLucio implements Runnable {
 		 */
 
 		Bot lucio = new LucioBot(-50004620, "Lucio", "268994751:AAGQUiHc4FpxlGlLPNdTTUciA6TJ0ifB03U");
-		TelegramAPI tb = new TelegramAPI(lucio.getToken());
+		TelegramAPIUtils tb = new TelegramAPIUtils(lucio.getToken());
 		lucio.setTelegram(tb);
 
 		try {

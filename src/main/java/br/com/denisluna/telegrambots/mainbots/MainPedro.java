@@ -1,4 +1,4 @@
-package br.com.denisluna.mainbots;
+package br.com.denisluna.telegrambots.mainbots;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import br.com.denisluna.Telegram.TelegramAPI;
 import br.com.denisluna.bots.Bot;
 import br.com.denisluna.bots.PedroBot;
+import br.com.denisluna.telegrambots.utils.TelegramAPIUtils;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class MainPedro implements Runnable {
 		 * inicia uma nova instância do bot, passando o id do chat
 		 */
 		Bot pedro = new PedroBot(-50004620, "Pedro", "269671710:AAEJtxNRatFkaD6Bk_ra3peyRfFDkQtpQPM");
-		TelegramAPI tb = new TelegramAPI(pedro.getToken());
+		TelegramAPIUtils tb = new TelegramAPIUtils(pedro.getToken());
 		pedro.setTelegram(tb);
 
 		try {
