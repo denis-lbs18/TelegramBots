@@ -14,6 +14,7 @@ public class Message {
 	private Document document;
 	private Video video;
 	private Voice voice;
+	private ArrayList<MessageEntity> entities;
 	private String messageType;
 
 	public Message(int messageId, Usuario usuarioFrom, int date, Chat chat) {
@@ -117,5 +118,13 @@ public class Message {
 
 	public void setPhoto(ArrayList<Photo> photo) {
 		this.photo = photo;
+	}
+
+	public ArrayList<MessageEntity> getEntities() {
+		return entities;
+	}
+
+	public void setEntities(ArrayList<MessageEntity> entities) {
+		this.entities = entities;
 	}
 }

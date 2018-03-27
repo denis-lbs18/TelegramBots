@@ -1,13 +1,13 @@
 package br.com.denisluna.telegrambots.types;
 
 public class Usuario {
-	private long id;
+	private int id;
 	private boolean isBot;
 	private String nome;
 	private String sobrenome;
 	private String username;
 
-	public Usuario(long id, boolean isBot, String nome, String sobrenome, String username) {
+	public Usuario(int id, boolean isBot, String nome, String sobrenome, String username) {
 		this.id = id;
 		this.isBot = isBot;
 		this.nome = nome;
@@ -15,16 +15,16 @@ public class Usuario {
 		this.username = username;
 	}
 
-	public Usuario(long id, String nome) {
+	public Usuario(int id, String nome) {
 		this.id = id;
 		this.nome = nome;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -64,7 +64,7 @@ public class Usuario {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + (id ^ (id >>> 32));
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}

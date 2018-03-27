@@ -9,6 +9,7 @@ import br.com.denisluna.telegrambots.types.Audio;
 import br.com.denisluna.telegrambots.types.Chat;
 import br.com.denisluna.telegrambots.types.Document;
 import br.com.denisluna.telegrambots.types.Message;
+import br.com.denisluna.telegrambots.types.MessageEntity;
 import br.com.denisluna.telegrambots.types.Photo;
 import br.com.denisluna.telegrambots.types.Usuario;
 import br.com.denisluna.telegrambots.types.Video;
@@ -42,6 +43,9 @@ public class JSONUtils {
 		} else if (verificaExisteCampoJSON(json, PadraoDeTags.PHOTO)) {
 			mensagem.setPhoto(pegaPhotosJSON(json));
 			mensagem.setMessageType(PadraoDeTags.PHOTO);
+		} else if (verificaExisteCampoJSON(json, PadraoDeTags.ENTITIES)) {
+			mensagem.setEntities(pegaEntitiesJSON(json));
+			mensagem.setMessageType(PadraoDeTags.ENTITIES);
 		} else if (verificaExisteCampoJSON(json, PadraoDeTags.VIDEO)) {
 			mensagem.setVideo(pegaVideoJSON(json));
 			mensagem.setMessageType(PadraoDeTags.VIDEO);
@@ -154,6 +158,26 @@ public class JSONUtils {
 		int fileSize = pegaCampoIntJSON(voice, PadraoDeTags.FILE_SIZE);
 
 		return new Voice(fileId, duration, mimeType, fileSize);
+	}
+
+	public static ArrayList<MessageEntity> pegaEntitiesJSON(JSONObject json) {
+		JSONArray entities = json.getJSONArray(PadraoDeTags.ENTITIES);
+		ArrayList<MessageEntity> listaEntities = new ArrayList<MessageEntity>();
+
+		for (int i = 0; i <= entities.length(); i++) {
+			JSONObject messageEntityJson = entities.getJSONObject(i);
+
+			String type = pegaCampoStringJSON(messageEntityJson, PadraoDeTags.TYPE);
+			int offSet = pegaCampoIntJSON(messageEntityJson, PadraoDeTags.OFFSET);
+			int length = pegaCampoIntJSON(messageEntityJson, PadraoDeTags.LENGHT);
+			String url = pegaCampoStringJSON(messageEntityJson, PadraoDeTags.URL);
+
+			MessageEntity messageEntity = new MessageEntity(type, offSet, length);
+			messageEntity.setUrl(url);
+			listaEntities.add(messageEntity);
+		}
+
+		return listaEntities;
 	}
 
 	private static int pegaCampoIntJSON(JSONObject objetoJson, String campo) {

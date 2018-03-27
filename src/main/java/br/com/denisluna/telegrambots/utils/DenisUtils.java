@@ -1,19 +1,11 @@
 package br.com.denisluna.telegrambots.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import br.com.denisluna.telegrambots.types.Usuario;
 
 public class DenisUtils {
 	public static String removeAcentos(String texto) {
@@ -76,29 +68,6 @@ public class DenisUtils {
 
 		return retorno;
 
-	}
-
-	public static void gravaUsuarios(String filename, Usuario usuario) throws IOException {
-		File f = new File(filename + ".txt");
-		if (!f.exists()) {
-			f.createNewFile();
-		}
-
-		InputStream inputStream = new FileInputStream(f);
-
-		ImportaUsuarios importaUsuarios = new ImportaUsuarios();
-		Collection<Usuario> usuarios = importaUsuarios.importaUsuarios(inputStream);
-		inputStream.close();
-
-		usuarios.add(usuario);
-
-		PrintStream printStream = new PrintStream(filename + ".txt");
-
-		for (Usuario user : usuarios) {
-			printStream.println(user.toString());
-		}
-
-		printStream.close();
 	}
 
 	public static boolean isNumeric(String s) {
