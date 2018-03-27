@@ -143,4 +143,9 @@ public class BahiaBot extends Bot {
 		}
 	}
 
+	@Override
+	public boolean verificaComandosValidos(String texto) {
+		return false;
+	}
+
 }

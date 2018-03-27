@@ -1,9 +1,7 @@
 package br.com.denisluna.bots;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -169,12 +167,15 @@ public abstract class Bot {
 		if (texto == null) {
 			resposta.add("Koeh, faltou o texto, aí. Use a sintaxe: '/fwd grupo-mensagem'!");
 			this.getTelegram().sendMessage(mensagem.getChat().getId(), resposta);
+			return;
 		} else if (texto.isEmpty()) {
 			resposta.add("Koeh, faltou o texto, aí. Use a sintaxe: '/fwd grupo-mensagem'!");
 			this.getTelegram().sendMessage(mensagem.getChat().getId(), resposta);
+			return;
 		}
 
 		// remove /fwd e deixa texto em minúsculo grupo =
+
 		grupo = grupo.substring(5);
 		grupo = grupo.toLowerCase();
 
@@ -259,14 +260,6 @@ public abstract class Bot {
 		HttpResponse<JsonNode> response;
 		boolean wait = false;
 		String command = "";
-		Set<String> commandList = new HashSet<String>();
-
-		commandList.add("/voice");
-		commandList.add("/curaspagem");
-		commandList.add("/getchatid");
-		commandList.add("/getchatinfo");
-		commandList.add("/rules");
-		commandList.add("/cher");
 
 		while (true) {
 			response = telegram.getUpdates(last_update_id++);
@@ -282,6 +275,9 @@ public abstract class Bot {
 
 				for (int i = 0; i < responses.length(); i++) {
 					JSONObject message;
+
+					if (!responses.getJSONObject(i).has(PadraoDeTags.MESSAGE))
+						continue;
 
 					message = responses.getJSONObject(i).getJSONObject(PadraoDeTags.MESSAGE);
 					Message mensagem = JSONUtils.pegaMessageJSON(message);
@@ -317,7 +313,7 @@ public abstract class Bot {
 								if (mensagem.getText().startsWith("/fwd ") || mensagem.getText().startsWith("/rpt "))
 									wait = false;
 								else if (mensagem.getText().startsWith("/")
-										&& !commandList.contains(mensagem.getText())) {
+										&& !this.verificaComandosValidos(mensagem.getText())) {
 									wait = true;
 									command = mensagem.getText();
 									continue;
@@ -350,6 +346,8 @@ public abstract class Bot {
 		}
 
 	}
+
+	public abstract boolean verificaComandosValidos(String texto);
 
 	public void enviaLogUsuarioEstranho(Message mensagem) {
 		List<String> resposta = new ArrayList<String>();

@@ -34,6 +34,12 @@ public class JSONUtils {
 		if (verificaExisteCampoJSON(json, PadraoDeTags.TEXT)) {
 			mensagem.setText(pegaCampoStringJSON(json, PadraoDeTags.TEXT));
 			mensagem.setMessageType(PadraoDeTags.TEXT);
+
+			if (verificaExisteCampoJSON(json, PadraoDeTags.ENTITIES)) {
+				mensagem.setEntities(pegaEntitiesJSON(json));
+				mensagem.setMessageType(PadraoDeTags.ENTITIES);
+			}
+
 		} else if (verificaExisteCampoJSON(json, PadraoDeTags.AUDIO)) {
 			mensagem.setAudio(pegaAudioJSON(json));
 			mensagem.setMessageType(PadraoDeTags.AUDIO);
@@ -43,9 +49,6 @@ public class JSONUtils {
 		} else if (verificaExisteCampoJSON(json, PadraoDeTags.PHOTO)) {
 			mensagem.setPhoto(pegaPhotosJSON(json));
 			mensagem.setMessageType(PadraoDeTags.PHOTO);
-		} else if (verificaExisteCampoJSON(json, PadraoDeTags.ENTITIES)) {
-			mensagem.setEntities(pegaEntitiesJSON(json));
-			mensagem.setMessageType(PadraoDeTags.ENTITIES);
 		} else if (verificaExisteCampoJSON(json, PadraoDeTags.VIDEO)) {
 			mensagem.setVideo(pegaVideoJSON(json));
 			mensagem.setMessageType(PadraoDeTags.VIDEO);
@@ -164,7 +167,7 @@ public class JSONUtils {
 		JSONArray entities = json.getJSONArray(PadraoDeTags.ENTITIES);
 		ArrayList<MessageEntity> listaEntities = new ArrayList<MessageEntity>();
 
-		for (int i = 0; i <= entities.length(); i++) {
+		for (int i = 0; i < entities.length(); i++) {
 			JSONObject messageEntityJson = entities.getJSONObject(i);
 
 			String type = pegaCampoStringJSON(messageEntityJson, PadraoDeTags.TYPE);

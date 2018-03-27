@@ -11,6 +11,7 @@ import br.com.denisluna.telegrambots.utils.PadraoDeTags;
 
 public class PedroBot extends Bot {
 	public static final String TOKEN = "269671710:AAEJtxNRatFkaD6Bk_ra3peyRfFDkQtpQPM";
+	public static final String VOICE = "/voice", CU_RASPAGEM = "/curaspagem", RULES = "/rules", CHER = "/cher";
 
 	public PedroBot(int chat_id, String nomebot, String token) {
 		super(chat_id, nomebot, token);
@@ -374,5 +375,15 @@ public class PedroBot extends Bot {
 				this.telegram.sendMessage(this.getChatId(), resposta);
 			}
 		}
+	}
+
+	@Override
+	public boolean verificaComandosValidos(String texto) {
+		boolean comandoVoice = texto.startsWith(VOICE);
+		boolean comandoCher = texto.startsWith(CHER);
+		boolean comandoCuRaspagem = texto.startsWith(CU_RASPAGEM);
+		boolean comandoRules = texto.startsWith(RULES);
+
+		return comandoVoice || comandoCher || comandoCuRaspagem || comandoRules;
 	}
 }
