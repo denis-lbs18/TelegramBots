@@ -19,7 +19,8 @@ import br.com.denisluna.telegrambots.utils.PadraoDeTags;
 import br.com.denisluna.telegrambots.utils.TelegramAPIUtils;
 
 public abstract class Bot {
-	public static final int CHAT_ID_CREATOR = 160440184, CHAT_ID_MYPST = -50004620;
+	public static final int CHAT_ID_CREATOR = 160440184, CHAT_ID_MYPST = -50004620, CHAT_ID_TESTE = -141839020,
+			CHAT_ID_SWEE420 = -40747241;
 	/**
 	 * (Portuguese/Português) Classe abstrata que permite a criação de qualquer
 	 * bot Nesta classe estão todos os métodos base como getters e setters, além
@@ -152,7 +153,7 @@ public abstract class Bot {
 			encaminhaLogUsuarioEstranho(mensagem);
 
 		// quebra a string separada pelo traço "-" String[]
-		String[] forward = mensagem.getText().split("-");
+		String[] forward = mensagem.getText().split(" ");
 		String grupo;
 		String texto;
 
@@ -164,41 +165,30 @@ public abstract class Bot {
 			texto = null;
 		}
 
-		if (texto == null) {
-			resposta.add("Koeh, faltou o texto, aí. Use a sintaxe: '/fwd grupo-mensagem'!");
-			this.getTelegram().sendMessage(mensagem.getChat().getId(), resposta);
-			return;
-		} else if (texto.isEmpty()) {
-			resposta.add("Koeh, faltou o texto, aí. Use a sintaxe: '/fwd grupo-mensagem'!");
+		if (texto == null || texto.isEmpty()) {
+			resposta.add("Koeh, faltou o texto, aí. Use a sintaxe: '/fwd grupo mensagem'!");
 			this.getTelegram().sendMessage(mensagem.getChat().getId(), resposta);
 			return;
 		}
-
-		// remove /fwd e deixa texto em minúsculo grupo =
 
 		grupo = grupo.substring(5);
 		grupo = grupo.toLowerCase();
 
 		if (grupo.isEmpty()) {
-			resposta.add("Koeh, faltou o grupo, aí. Use a sintaxe: '/fwd grupo-mensagem'!");
+			resposta.add("Koeh, faltou o grupo, aí. Use a sintaxe: '/fwd grupo mensagem'!");
 			this.getTelegram().sendMessage(mensagem.getChat().getId(), resposta);
 		}
 
-		// -50004620 é o id do chat mypst 3.0 // -141839020 é o
-		// id do chat teste int chat = 0;
 		int fwdgrupo = 0;
 
 		if (DenisUtils.isNumeric(grupo)) {
 			fwdgrupo = Integer.parseInt(grupo);
 		} else if (grupo.equals("mypst")) {
-			fwdgrupo = -50004620;
+			fwdgrupo = CHAT_ID_MYPST;
 		} else if (grupo.equals("teste")) {
-			fwdgrupo = -141839020;
+			fwdgrupo = CHAT_ID_TESTE;
 		} else if (grupo.equals("swee420"))
-			fwdgrupo = -40747241;
-
-		// -50004620 é o id do chat mypst 3.0
-		// -141839020 é o id do chat teste
+			fwdgrupo = CHAT_ID_SWEE420;
 
 		if (!grupo.isEmpty()) {
 			resposta.add(texto);
@@ -206,7 +196,6 @@ public abstract class Bot {
 
 		} else
 			return;
-
 	}
 
 	private void encaminhaLogUsuarioEstranho(Message mensagem) {
