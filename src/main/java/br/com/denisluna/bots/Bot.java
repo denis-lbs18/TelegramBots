@@ -22,23 +22,20 @@ public abstract class Bot {
 	public static final int CHAT_ID_CREATOR = 160440184, CHAT_ID_MYPST = -50004620, CHAT_ID_TESTE = -141839020,
 			CHAT_ID_SWEE420 = -40747241;
 	/**
-	 * (Portuguese/Português) Classe abstrata que permite a criação de qualquer
-	 * bot Nesta classe estão todos os métodos base como getters e setters, além
-	 * das assinaturas das rotinas básicas como responder, repetir e encaminhar
+	 * (Portuguese/Português) Classe abstrata que permite a criação de qualquer bot
+	 * Nesta classe estão todos os métodos base como getters e setters, além das
+	 * assinaturas das rotinas básicas como responder, repetir e encaminhar
 	 * mensagens.
 	 * 
 	 * (English) Abstract class that allows the creation of any telegram bot. In
 	 * this class we have all the base methods, also all the needed getters and
-	 * setters. We also have the signatures of the main methods, like answer,
-	 * repeat and forward messages.
+	 * setters. We also have the signatures of the main methods, like answer, repeat
+	 * and forward messages.
 	 * 
-	 * @param nome
-	 *            = nome do bot (bot's name)
-	 * @param chatId
-	 *            = chat no qual o bot participa (bot's chat_id)
-	 * @param token
-	 *            = token recebido pelo @botfather no telegram (bot's telegram
-	 *            token)
+	 * @param nome   = nome do bot (bot's name)
+	 * @param chatId = chat no qual o bot participa (bot's chat_id)
+	 * @param token  = token recebido pelo @botfather no telegram (bot's telegram
+	 *               token)
 	 */
 	protected int chatId;
 	protected String nomeBot;
@@ -46,19 +43,16 @@ public abstract class Bot {
 	protected TelegramAPIUtils telegram;
 
 	/**
-	 * Construtor do bot. Todo bot para ser instanciado, precisa de um id de
-	 * chat, nome e token.
+	 * Construtor do bot. Todo bot para ser instanciado, precisa de um id de chat,
+	 * nome e token.
 	 * 
 	 * Bot's constructor. Every bot needs this for being created, it needs a
 	 * chat_id, name and token.
 	 * 
-	 * @param chatId
-	 *            = chat no qual o bot participa (bot's chat_id)
-	 * @param nomebot
-	 *            = nome do bot (bot's name)
-	 * @param token
-	 *            = token recebido pelo @botfather no telegram (bot's telegram
-	 *            token)
+	 * @param chatId  = chat no qual o bot participa (bot's chat_id)
+	 * @param nomebot = nome do bot (bot's name)
+	 * @param token   = token recebido pelo @botfather no telegram (bot's telegram
+	 *                token)
 	 * 
 	 */
 	public Bot(int chatId, String nomebot, String token) {
@@ -76,16 +70,14 @@ public abstract class Bot {
 	}
 
 	/**
-	 * @param token
-	 *            = token do bot recebito pelo botfather
+	 * @param token = token do bot recebito pelo botfather
 	 */
 	public void setToken(String token) {
 		this.token = token;
 	}
 
 	/**
-	 * @param chatId
-	 *            = id do chat no qual o bot participa
+	 * @param chatId = id do chat no qual o bot participa
 	 */
 	public void setChatId(int chatId) {
 		this.chatId = chatId;
@@ -99,8 +91,7 @@ public abstract class Bot {
 	}
 
 	/**
-	 * @param nome
-	 *            atribui o nome do bot
+	 * @param nome atribui o nome do bot
 	 */
 	public void setNomeBot(String nome) {
 		this.nomeBot = nome;
@@ -121,8 +112,7 @@ public abstract class Bot {
 	}
 
 	/**
-	 * @param telegram
-	 *            the telegram to set
+	 * @param telegram the telegram to set
 	 */
 	public void setTelegram(TelegramAPIUtils telegram) {
 		this.telegram = telegram;
@@ -139,10 +129,8 @@ public abstract class Bot {
 	 * Encaminha uma mensagem para um determinado grupo Este método é único para
 	 * todos os bots
 	 * 
-	 * @param mensagem
-	 *            = mensagem a ser encaminhada;
-	 * @param tipo
-	 *            = tipo de chat ("group" ou "private");
+	 * @param mensagem = mensagem a ser encaminhada;
+	 * @param tipo     = tipo de chat ("group" ou "private");
 	 * @return ArrayList com a resposta a ser encaminhada
 	 * @throws UnirestException
 	 */
@@ -157,6 +145,8 @@ public abstract class Bot {
 		String grupo;
 		String texto;
 
+		if (forward.length == 0)
+			return;
 		grupo = forward[0].trim();
 
 		try {
@@ -171,7 +161,11 @@ public abstract class Bot {
 			return;
 		}
 
-		grupo = grupo.substring(5);
+		try {
+			grupo = grupo.substring(5);
+		} catch (StringIndexOutOfBoundsException ex) {
+			return;
+		}
 		grupo = grupo.toLowerCase();
 
 		if (grupo.isEmpty()) {
@@ -208,12 +202,9 @@ public abstract class Bot {
 	/**
 	 * Repete a mensagem do usuário com a tag /rpt
 	 * 
-	 * @param mensagem
-	 *            = mensagem a ser respondida;
-	 * @param titulo
-	 *            = titulo do chat;
-	 * @param tipo
-	 *            = tipo de chat ("group" ou "private");
+	 * @param mensagem = mensagem a ser respondida;
+	 * @param titulo   = titulo do chat;
+	 * @param tipo     = tipo de chat ("group" ou "private");
 	 * @return um arraylist com as respostas, permitindo várias respostas
 	 */
 	public List<String> repete(Message mensagem) {
@@ -274,11 +265,10 @@ public abstract class Bot {
 					this.setChatId(mensagem.getChat().getId());
 
 					/**
-					 * Verifica se o bot recebeu uma mensagem em um grupo e é um
-					 * comando. Em grupos, os comandos do bot possuem a sintaxe
-					 * "comando@botusername Caso seja verdadeiro, será efetuado
-					 * um tratamento no comando, removendo o @ através do método
-					 * removeArrobaComando
+					 * Verifica se o bot recebeu uma mensagem em um grupo e é um comando. Em grupos,
+					 * os comandos do bot possuem a sintaxe "comando@botusername Caso seja
+					 * verdadeiro, será efetuado um tratamento no comando, removendo o @ através do
+					 * método removeArrobaComando
 					 */
 					// if (mensagem.getChat().getType().equals("group") &&
 					// mensagem.getText().contains("@")
@@ -286,14 +276,12 @@ public abstract class Bot {
 					// mensagem.setCommand(removeArrobaComando(mensagem.getText()));
 
 					/**
-					 * Se a mensagem contém os comandos /fwd ou /rpt + texto,
-					 * apenas sinaliza a variável wait como false, e segue o
-					 * fluxo normal mais abaixo
+					 * Se a mensagem contém os comandos /fwd ou /rpt + texto, apenas sinaliza a
+					 * variável wait como false, e segue o fluxo normal mais abaixo
 					 * 
-					 * Caso o comando seja apenas /fwd ou /rpt, ou outros
-					 * /getchatname, cai no else, atribuindo a variável wait
-					 * como true, e atribuindo o comando na variável command.
-					 * Ambas serão utilizadas no próximo passo do loop
+					 * Caso o comando seja apenas /fwd ou /rpt, ou outros /getchatname, cai no else,
+					 * atribuindo a variável wait como true, e atribuindo o comando na variável
+					 * command. Ambas serão utilizadas no próximo passo do loop
 					 */
 
 					if (mensagem.getMessageType().equals(PadraoDeTags.ENTITIES)) {
@@ -311,15 +299,14 @@ public abstract class Bot {
 					}
 
 					/**
-					 * Se variável wait = true; é comando e atribuirá o texto do
-					 * comando dentro do texto da mensagem.
+					 * Se variável wait = true; é comando e atribuirá o texto do comando dentro do
+					 * texto da mensagem.
 					 * 
-					 * Isso ocorre para que tanto comandos selecionados através
-					 * da lista do Telegram quanto comandos digitados + texto do
-					 * Parâmetro sejam interpretados pelo bot
+					 * Isso ocorre para que tanto comandos selecionados através da lista do Telegram
+					 * quanto comandos digitados + texto do Parâmetro sejam interpretados pelo bot
 					 * 
-					 * Caso variável wait = false, apenas responde a mensagem
-					 * com o texto original da mensagem.
+					 * Caso variável wait = false, apenas responde a mensagem com o texto original
+					 * da mensagem.
 					 */
 					if (wait == true) {
 						mensagem.setText(command + " " + mensagem.getText());

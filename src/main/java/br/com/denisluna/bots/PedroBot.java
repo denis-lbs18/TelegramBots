@@ -21,7 +21,8 @@ public class PedroBot extends Bot {
 	public void responde(Message mensagem) {
 		List<String> resposta = new ArrayList<String>();
 
-		if (mensagem.getUsuarioFrom().getId() != Bot.CHAT_ID_CREATOR) {
+		if (mensagem.getUsuarioFrom().getId() != Bot.CHAT_ID_CREATOR
+				&& mensagem.getChat().getType().equals("private")) {
 			enviaLogUsuarioEstranho(mensagem);
 			return;
 		}
