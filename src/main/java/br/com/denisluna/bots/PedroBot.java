@@ -24,8 +24,9 @@ public class PedroBot extends Bot {
 		if (mensagem.getUsuarioFrom().getId() != Bot.CHAT_ID_CREATOR
 				&& mensagem.getChat().getType().equals("private")) {
 			enviaLogUsuarioEstranho(mensagem);
-			return;
 		}
+
+		this.setChatId(mensagem.getChat().getId());
 
 		if (mensagem.getMessageType().equals(PadraoDeTags.ENTITIES)) {
 			for (MessageEntity entity : mensagem.getEntities()) {
@@ -158,8 +159,7 @@ public class PedroBot extends Bot {
 				resposta.add("Serinho!");
 				this.telegram.sendMessage(this.getChatId(), resposta);
 
-			} else if (mensagem.getText().startsWith("VISH")) {
-
+			} else if (mensagem.getText().toUpperCase().contains("VISH")) {
 				if (mensagem.getText().trim().equals("VISH")) {
 					resposta.add("Double Vish");
 				} else if (mensagem.getText().contains("DOUBLE")) {
